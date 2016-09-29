@@ -1,6 +1,11 @@
+# TCP Chat Client
+# Based on and adopted from guide at http://www.binarytides.com/code-chat-application-server-client-sockets-python/
+# NOTE: This code will not operate on a Windows Based Machine due to the fact that it uses some Unix system-level code
+
 import select
 import socket
 import sys
+from time import strftime, gmtime
 
 
 #For terminal colours
@@ -28,8 +33,6 @@ if __name__ == "__main__":
         sys.exit()
 
     print "Welcome to the Python-Powered Chat Client."
-    # username = sys.stdin.readline().rstrip()
-    # print "Welcome, %s" % username
 
     host = sys.argv[1]
     port = int(sys.argv[2])
@@ -63,7 +66,7 @@ if __name__ == "__main__":
             if sock == s:
                 data = sock.recv(4096)
                 if not data:
-                    print '\nDisconnected from chat server'
+                    print '\nDisconnected from chat server at time ' + strftime("%Y-%m-%d %H:%M:%S GMT", gmtime())
                     sys.exit()
                 else:
                     # print data
