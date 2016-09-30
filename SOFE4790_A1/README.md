@@ -9,9 +9,9 @@
 * Open a Terminal Window
 * Navigate to the source directory
 * Run
-    ~~~~
+    ```
      python Client.py <ip of server> <port of server>
-    ~~~~
+    ```
 * The program will not launch if the server cannot be conected to
 
 ##### To Run the Server From Source #####
