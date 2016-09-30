@@ -46,7 +46,7 @@
 * The server also provides to keyword commands to the client
     * ```leave``` - Disconnects you from the server and terminates the program
     * ```list``` - Lists the usernames and IP Addresses of all clients connected to the chat. Useful for finding the name of someone you wish to message privately.
-* The prompt identifies messages you sent with ```"<You>"``` higlighted in green
+* The prompt identifies messages you sent with ```<You>``` higlighted in green
 * Messages from other users are identified with their username as ```<username>``` highlighted in blue
 
 ##### Terminating the Client and Server #####
