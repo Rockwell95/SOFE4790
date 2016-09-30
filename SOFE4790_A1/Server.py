@@ -1,4 +1,5 @@
 # TCP Chat Server
+# SOFE 4790U - Distributed Systems - Fall 2016 - Dominick Mancini - 100517944
 # Based on and adopted from guide at http://www.binarytides.com/code-chat-application-server-client-sockets-python/
 # NOTE: This code will not operate on a Windows Based Machine due to the fact that it uses some Unix system-level code
 
