@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>README.md</title><style></style></head><body id="preview">
+<h1><a id="TCP_Chat_Application_0"></a>TCP Chat Application</h1>
+<h3><a id="For_Unix_Operating_Systems_Written_in_Python_1"></a>For Unix Operating Systems (Written in Python)</h3>
+<h4><a id="By_Dominick_Mancini__100517944_3"></a>By: Dominick Mancini – 100517944</h4>
+<h4><a id="Course_SOFE_4790U__Distributed_Systems_4"></a>Course: SOFE 4790U - Distributed Systems</h4>
+<h2><a id="Usage_6"></a>Usage</h2>
+<h5><a id="To_Run_the_Client_From_Source_7"></a>To Run the Client From Source</h5>
+<ul>
+<li>Open a Terminal Window</li>
+<li>Navigate to the source directory</li>
+<li>Run<pre><code> python Client.py &lt;ip of server&gt; &lt;port of server&gt;
+</code></pre>
+</li>
+<li>The program will not launch if the server cannot be conected to</li>
+</ul>
+<h5><a id="To_Run_the_Server_From_Source_16"></a>To Run the Server From Source</h5>
+<ul>
+<li>Open a Terminal Window</li>
+<li>Navigate to the source directory</li>
+<li>Run<pre><code>python Server.py
+</code></pre>
+</li>
+</ul>
+<h5><a id="Executing_Without_Python_24"></a>Executing Without Python</h5>
+<ul>
+<li>The server can still be run using precompiled binaries provided with the submission</li>
+<li>Open a terminal and navigate to the source directory</li>
+<li>For the client, run<pre><code>dist/Client/Client &lt;ip of server&gt; &lt;port of server&gt;
+</code></pre>
+</li>
+<li>For the server, run<pre><code>dist/Server/Server
+</code></pre>
+</li>
+</ul>
+<h5><a id="Using_the_Client_36"></a>Using the Client</h5>
+<ul>
+<li>Once the client is loaded, it will automatically try to connect to the server.</li>
+<li>Once the server is connected, you will be prompted to provide a username (no spaces are allowed)</li>
+<li>After entering a username, you will be brought into a general chat room.</li>
+<li>Any messages you send here without appending the proper prefix will be sent to all members of the chat room.</li>
+<li>To send a private message, type <code>&lt;username&gt; &gt;&gt; &lt;message&gt;</code>
+<ul>
+<li>For example, to send a private message “Hello World!” to Foo, use <code>Foo &gt;&gt; Hello World!</code></li>
+<li>Messages will show up to the recipiten in the format <code>&lt;username&gt; [private] message</code></li>
+<li>For example, if your username is Bar, and we sent the above message, Foo, would receive it as <code>&lt;Bar&gt; [private] Hello World!</code></li>
+</ul>
+</li>
+<li>The server also provides to keyword commands to the client
+<ul>
+<li><code>leave</code> - Disconnects you from the server and terminates the program</li>
+<li><code>list</code> - Lists the usernames and IP Addresses of all clients connected to the chat. Useful for finding the name of someone you wish to message privately.</li>
+</ul>
+</li>
+<li>The prompt identifies messages you sent with <code>&quot;&lt;You&gt;&quot;</code> higlighted in green</li>
+<li>Messages from other users are identified with their username as <code>&lt;username&gt;</code> highlighted in blue</li>
+</ul>
+<h5><a id="Terminating_the_Client_and_Server_51"></a>Terminating the Client and Server</h5>
+<ul>
+<li><strong>Server</strong>
+<ul>
+<li>Ctrl+C will terminate the server, all connected clients will have their connections terminated as well</li>
+</ul>
+</li>
+<li><strong>Client</strong>
+<ul>
+<li>use the “leave” command, the server will properly acknowledge your departure, remove you from the connection list, and notify other users</li>
+<li><strong>NOT RECOMMENDED:</strong> Ctrl+C can also terminate the client, however, the server will be unaware of the departure, and will not remove you from the connection list or notify other users; trying to sign back in with the same username will result in an error from the server saying that username is in use and you must provide another.</li>
+</ul>
+</li>
+</ul>
+
+</body></html>
