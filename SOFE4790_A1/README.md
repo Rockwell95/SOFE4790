@@ -18,21 +18,21 @@
 * Open a Terminal Window
 * Navigate to the source directory
 * Run
-    ~~~~
+    ```
     python Server.py
-    ~~~~
+    ```
 
 ##### Executing Without Python #####
 * The server can still be run using precompiled binaries provided with the submission
 * Open a terminal and navigate to the source directory
 * For the client, run
-    ~~~~
+    ```
     dist/Client/Client <ip of server> <port of server>
-    ~~~~
+    ```
 * For the server, run
-    ~~~~
+    ```
     dist/Server/Server
-    ~~~~
+    ```
 
 ##### Using the Client #####
 * Once the client is loaded, it will automatically try to connect to the server.
