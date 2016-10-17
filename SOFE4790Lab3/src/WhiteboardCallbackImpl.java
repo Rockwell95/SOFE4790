@@ -8,7 +8,7 @@ public class WhiteboardCallbackImpl extends UnicastRemoteObject implements White
 
     @Override
     public void callBack(int version) throws RemoteException {
-        String returnMessage = "Someone has added a new shape, we now have a new version number! V:" + version + ".0";
+        String returnMessage = "Someone has added a new shape, we now have a new version number! v" + version + ".0";
         System.out.println(returnMessage);
     }
 }

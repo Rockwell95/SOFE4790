@@ -10,11 +10,12 @@ public class ShapeListClient {
     public static void main(String args[]) {
         Scanner in = new Scanner(System.in);
         boolean registered = false;
+        int callBackId = 0;
         do {
             String host = args[0];
             int port = Integer.parseInt(args[1]);
-            String option = "read";
-            String type = "rectangle";
+            String option;
+            String type;
             boolean valid = false;
 
             do
@@ -29,14 +30,13 @@ public class ShapeListClient {
             while (!valid);
 //            if (args.length > 2) option = args[2]; // read or write
 //            if (args.length > 3) type = args[3]; // circle, line, etc.
-            System.out.println("option = " + option + ", shape = " + type);
+            // System.out.println("option = " + option + ", shape = " + type);
 
             try {
                 Registry registry = LocateRegistry.getRegistry(host, port);
                 ShapeList aList = (ShapeList) registry.lookup("ShapeList");
                 WhiteboardCallback callback = new WhiteboardCallbackImpl();
-                int callBackId = 0;
-                if (!registered) {
+                if (!registered) { // ensures client doesn't register more than once.
                     callBackId = aList.register(callback);
                     registered = true;
                 }
@@ -45,7 +45,7 @@ public class ShapeListClient {
                 System.out.println("Got vector");
                 if (option.equals("read")) {
                     for (int i = 0; i < shapeVec.size(); i++) {
-                        GraphicalObject g = ((Shape) shapeVec.elementAt(i)).getAllState();
+                        GraphicalObject g = shapeVec.elementAt(i).getAllState();
                         g.print();
                     }
                 } else {

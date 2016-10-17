@@ -22,7 +22,7 @@ public class ShapeListServant extends UnicastRemoteObject implements ShapeList {
 		Shape s = new ShapeServant(g, version);
 		theList.addElement(s);
 		for (Integer key : callbacks.keySet()) {
-			WhiteboardCallback clientCallback = (WhiteboardCallback)callbacks.get(key);
+			WhiteboardCallback clientCallback = callbacks.get(key);
 			clientCallback.callBack(version);
 		}
 		return s;
