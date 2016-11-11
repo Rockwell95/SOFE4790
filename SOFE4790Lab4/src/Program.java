@@ -1,9 +1,19 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// --------------------- FOR TASK 1 ------------------------
 //class Program {
-//    static String query;
-//    static int kDistance;
+//    private static String query;
+//
+//    public static String getQuery() {
+//        return query;
+//    }
+//
+//    public static int getkDistance() {
+//        return kDistance;
+//    }
+//
+//    private static int kDistance;
 //    public static void main(String[] args){
 //        if(args.length < 4){
 //            System.out.println("Usage: java Program [input file] [output file] [query string] [k-edit-distance]");
@@ -39,9 +49,18 @@ import java.util.List;
 //    }
 //}
 
+// --------------------- FOR TASK 2 ------------------------
 class Program {
-    static String query;
-    static int kDistance;
+    private static String query;
+    private static int kDistance;
+
+    public static String getQuery() {
+        return query;
+    }
+
+    public static int getkDistance() {
+        return kDistance;
+    }
 
     public static void main(String[] args) {
         if(args.length < 5){
@@ -80,5 +99,6 @@ class Program {
         }
         long duration = System.currentTimeMillis() - start;
         System.out.println("Total Duration: " + duration + " ms.");
+
     }
 }

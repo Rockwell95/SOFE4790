@@ -9,18 +9,21 @@ class LineConsumer implements Runnable {
     private final MessageQueue<Line> q2;
     private String outputFileName;
 
+    // --------------------- FOR TASK 1 ------------------------
     LineConsumer(MessageQueue<Line> q1, String outputFileName) {
         this.q1 = q1;
         this.q2 = null;
         this.outputFileName = outputFileName;
     }
 
+    // --------------------- FOR TASK 2 ------------------------
     LineConsumer(MessageQueue<Line> q1, MessageQueue<Line> q2){
         this.q1 = q1;
         this.q2 = q2;
         this.outputFileName = null;
     }
 
+    // --------------------- FOR TASK 1 ------------------------
 //    @Override
 //    public void run() {
 //        synchronized (q1) {
@@ -28,7 +31,7 @@ class LineConsumer implements Runnable {
 //                PrintWriter out = new PrintWriter(outputFileName);;
 //                while (!q1.isEmpty()) {
 //                    String line = q1.take().content;
-//                    if (line != null && Util.editDistance(Program.query, line) <= Program.kDistance) {
+//                    if (line != null && Util.editDistance(Program.getQuery(), line) <= Program.getkDistance()) {
 //                        out.println(line);
 //                        System.out.println(line);
 //                    }
@@ -40,6 +43,7 @@ class LineConsumer implements Runnable {
 //        }
 //    }
 
+    // --------------------- FOR TASK 2 ------------------------
     @Override
     public void run() {
         assert q2 != null;
@@ -47,7 +51,7 @@ class LineConsumer implements Runnable {
             synchronized (q1){
                 while (!q1.isEmpty()) {
                     Line line = q1.take();
-                    if (line.content != null && Util.editDistance(Program.query, line.content) <= Program.kDistance) {
+                    if (line.content != null && Util.editDistance(Program.getQuery(), line.content) <= Program.getkDistance()) {
                         q2.put(line);
                     }
                 }
