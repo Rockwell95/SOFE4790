@@ -73,9 +73,9 @@ class Program {
         int numWorkers = Integer.parseInt(args[2]);
         query = args[3];
         kDistance = Integer.parseInt(args[4]);
-        FileIterator lines = new FileIterator(inputFileName, repeat); ;
+        FileIterator lines = new FileIterator(inputFileName, repeat);
         MessageQueue<Line> q1 = new MessageQueue<>();
-        MessageQueue<Line> q2 = new MessageQueue<>() ;
+        MessageQueue<Line> q2 = new MessageQueue<>();
         List<Thread> threads = new ArrayList<Thread>();
 // create the producer thread
         threads.add(new Thread(new LineProducer(lines, q1)));

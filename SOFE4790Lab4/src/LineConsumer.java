@@ -31,7 +31,7 @@ class LineConsumer implements Runnable {
 //                PrintWriter out = new PrintWriter(outputFileName);;
 //                while (!q1.isEmpty()) {
 //                    String line = q1.take().content;
-//                    if (line != null && Util.editDistance(Program.getQuery(), line) <= Program.getkDistance()) {
+//                    if (line != null && Util.editDistance(Program.getQuery(), line) <= Program.getkDistance() && !line.contains("distributed systems")) {
 //                        out.println(line);
 //                        System.out.println(line);
 //                    }
@@ -51,7 +51,7 @@ class LineConsumer implements Runnable {
             synchronized (q1){
                 while (!q1.isEmpty()) {
                     Line line = q1.take();
-                    if (line.content != null && Util.editDistance(Program.getQuery(), line.content) <= Program.getkDistance()) {
+                    if (line.content != null && Util.editDistance(Program.getQuery(), line.content) <= Program.getkDistance() && !(line.content).contains("distributed systems")) {
                         q2.put(line);
                     }
                 }
