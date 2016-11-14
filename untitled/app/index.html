@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="app.css">
-  <link rel="stylesheet" href="scripts/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 
   <style>
     /* Remove the navbar's default margin-bottom and rounded borders */
@@ -21,15 +21,22 @@
     }
   </style>
   <!--Angular Libraries-->
-  <script src="scripts/bower_components/angular/angular.js"></script>
-  <script src="scripts/bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
 
   <!--App Controllers and Directives-->
   <script src="scripts/app.js"></script>
   <script src="scripts/heatmap-controller.js"></script>
+
+  <!-- Angular Maps Plugin -->
+  <script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+  <script src="http://maps.google.com/maps/api/js?key=AIzaSyAhs2Msocps3-q2lslapwxLrgMYdofeVs0"></script>
+  <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhs2Msocps3-q2lslapwxLrgMYdofeVs0"></script>-->
+
+
   <!--BOOTSTRAP LIBRARIES-->
-  <script src="scripts/bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="scripts/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 </head>
 <body ng-app="myApp" ng-controller="HeatMapController">
@@ -66,23 +73,9 @@
 
 <div class="container-fluid bg-3 text-center">
   <h3>Canada</h3><br>
-  <div id="gmap">My Map will go here</div>
-  <!-- Google Maps API -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhs2Msocps3-q2lslapwxLrgMYdofeVs0&callback=initMap"></script>
-  <script>
-    function initMap() {
-      console.log("Initializing map...");
-      var uluru = {lat: -25.363, lng: 131.044};
-      var map = new google.maps.Map(document.getElementById('gmap'), {
-        zoom: 4,
-        center: uluru
-      });
-      var marker = new google.maps.Marker({
-        position: uluru,
-        map: map
-      });
-    }
-  </script>
+  <div map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}">
+    <ng-map center="41, -87" zoom="3"></ng-map>
+  </div>
 </div><br>
 
 <div class="container-fluid bg-3 text-center">
