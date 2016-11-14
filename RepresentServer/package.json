@@ -1,0 +1,31 @@
+{
+  "name": "representserver",
+  "version": "1.0.0",
+  "description": "server to access public service apis",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "latest",
+    "cookie-parser": "latest",
+    "dispatcher": "0.0.2",
+    "express": "latest",
+    "httpdispatcher": "^2.0.1",
+    "morgan": "latest",
+    "represent": "^0.2.2",
+    "serve-favicon": "latest",
+    "cors": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rockwell95/SOFE4790.git"
+  },
+  "author": "Dominick Mancini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rockwell95/SOFE4790/issues"
+  },
+  "homepage": "https://github.com/rockwell95/SOFE4790#readme"
+}
