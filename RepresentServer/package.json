@@ -12,7 +12,8 @@
     "morgan": "latest",
     "represent": "^0.2.2",
     "serve-favicon": "latest",
-    "cors": "latest"
+    "cors": "latest",
+    "request": "latest"
   },
   "devDependencies": {},
   "scripts": {
