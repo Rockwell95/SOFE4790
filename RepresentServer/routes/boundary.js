@@ -21,9 +21,11 @@ router.post('/', function (req, res, next) {
             console.log("Got shapes");
             represent.boundaries("federal-electoral-districts/" + id + "/representatives", function (error3, data3) {
                 console.log("Got parties");
-                if (data3.objects[0]) {
-                    console.log(data3.objects[0].party_name);
-                    data2.party = data3.objects[0].party_name;
+                if (data3) {
+                    if (data3.objects[0]) {
+                        console.log(data3.objects[0].party_name);
+                        data2.party = data3.objects[0].party_name;
+                    }
                 }
                 callback(data2);
             })
