@@ -7,7 +7,7 @@
         .module('myApp.mapper', ['ngRoute', 'ngMap','ngSanitize'])
         .controller('HeatMapController', heatMapController);
 
-    function heatMapController($scope, $http, NgMap, $timeout, $window) {
+    function heatMapController($scope, $http, NgMap, $window) {
         var monthNames = [
             "January", "February", "March",
             "April", "May", "June", "July",
@@ -22,6 +22,7 @@
         $scope.ridingInfo = {
             population: -1
         };
+        $scope.render = true;
         $scope.googleMapsUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAhs2Msocps3-q2lslapwxLrgMYdofeVs0";
 
         NgMap.getMap().then(function (map) {
@@ -40,19 +41,25 @@
             $scope.data = JSON.parse($window.localStorage.getItem("electionData"));
         }
 
+        //Deletes shapes from map and forces it to re-render and re-download ridings
         $scope.refreshMap = function () {
             console.log("Refreshing map data, please wait...");
             $window.localStorage.clear();
+            $scope.mapRender.length = 0;
+            //force map reload
+            $scope.render = false;
+            $scope.render = true;
             getData();
         };
 
+        // Sends request to server for information on riding (shape) that was clicked on. API allows geocoding lookup
         $scope.click = function(event, shape) {
-            //$scope.map.setZoom(8);
             var lat = event.latLng.lat();
             var lng = event.latLng.lng();
             //console.log(lat + " " + lng);
             getRidingInfo(lat, lng, event)
         };
+
 
         $scope.$watch('data', function (newVal, oldVal) {
             console.log("Got data with length:", $scope.data.length);
@@ -90,7 +97,8 @@
                 });
         }
 
-
+        // Colors and draws districts based on ruling party. Magenta is used for other and/or vacant ridings.
+        // As of the time of construction, only Liberal, Conservative, NDP, Bloc and Green parties held parliamentary seats
         function drawDistricts(data){
             $scope.mapRender = [];
             var color;
@@ -110,10 +118,10 @@
                         color = "#00FFFF";
                     }
                     else if (data[region].party === "Independent") {
-                        color = "#C0C0C0";
+                        color = "#838383";
                     }
                     else if (data[region].party === "Green Party") {
-                        color = "#00FF00";
+                        color = "#228B22";
                     }
                     else {
                         color = '#FF00FF';

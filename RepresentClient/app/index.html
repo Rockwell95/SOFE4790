@@ -70,7 +70,7 @@
 <div class="container-fluid bg-3 text-center">
   <h3>Canada</h3><br>
   <div map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}">
-    <ng-map center="56, -97" zoom="3" style="height:500px;">
+    <ng-map center="56, -97" zoom="3" style="height:500px;" ng-if="render">
       <marker id="loc" position="current-position" title="your-location" icon="media/world.png" on-click="map.showInfoWindow('location')"></marker>
       <info-window id="location">
         <div ng-non-bindable>
@@ -80,7 +80,12 @@
 
       <info-window id="ridingInfo">
         <div ng-non-bindable>
-          <p><b>District Name: </b>{{ridingInfo.name}}<br><b>Representing Party: </b>{{ridingInfo.party}}<br><b>Member of Parliament: </b>{{ridingInfo.mp}}<br><b>Population: </b>{{numberWithCommas(ridingInfo.population)}}</p>
+          <p><b>District Name: </b>{{ridingInfo.name}}
+            <br><b>Representing Party: </b>{{ridingInfo.party}}
+            <br><b>Member of Parliament: </b>{{ridingInfo.mp}}
+            <br><b>Email: </b><a ng-href="{{'mailto:' + ridingInfo.email}}">{{ridingInfo.email}}</a>
+            <br><a ng-href="{{ridingInfo.moreInfo}}" target="_blank">More Information</a>
+            <br><b>Population: </b>{{numberWithCommas(ridingInfo.population)}}</p>
         </div>
       </info-window>
 

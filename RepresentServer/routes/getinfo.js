@@ -29,13 +29,15 @@ router.post('/', function (req, res, next) {
         represent.boundaries(subUrl, function (error, data) {
             if(error){
                 console.error(error);
-                sendReply({name: localData.name, mp: "N/A", party: "Vacant", population: localPop});
+                sendReply({name: localData.name, mp: "N/A", party: "Vacant", email: "N/A", moreInfo: "N/A", population: localPop});
             }
             else{
                 localReps = JSON.parse(JSON.stringify(data.objects[0]));
                 replyPayload = {
                     name: localData.name,
                     mp: data.objects[0].name,
+                    email: data.objects[0].email,
+                    moreInfo: data.objects[0].url,
                     party: data.objects[0].party_name,
                     population: localPop
                 };
