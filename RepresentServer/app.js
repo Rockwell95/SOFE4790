@@ -11,6 +11,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var boundary = require('./routes/boundary');
 var coords = require("./routes/coords");
+var getinfo = require("./routes/getinfo");
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/boundary', boundary);
 app.use('/coords', coords);
+app.use('/getinfo', getinfo);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
