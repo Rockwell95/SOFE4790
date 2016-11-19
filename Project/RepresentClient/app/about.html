@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SOFE 4790U Final Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+  <!--Angular Libraries-->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+
+  <!--App Controllers and Directives-->
+  <script src="scripts/app.js"></script>
+  <script src="scripts/heatmap-controller.js"></script>
+
+  <!-- Angular Maps Plugin -->
+  <script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+  <script src="http://maps.google.com/maps/api/js?key=AIzaSyAhs2Msocps3-q2lslapwxLrgMYdofeVs0"></script>
+  <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhs2Msocps3-q2lslapwxLrgMYdofeVs0"></script>-->
+
+
+  <!-- CSS LIBRARIES-->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+
+</head>
+<body ng-app="myApp" ng-controller="HeatMapController">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Electoral HeatMap</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li class="active"><a href="#">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <p>&nbsp;</p>
+  <p>SOFE 4790U: Distributed Systems</p>
+  <p>Electoral District Heat Mapping</p>
+  <p>Nick Mancini &ndash; 100517944</p>
+  <p>Submitted to the University of Ontario Institute of Technology</p>
+  <p>Faculty of Engineering and Applied Science</p>
+  <p>Department of Computer, Software, and Electrical Engineering</p>
+  <br>
+  <img src="SOFE%204790U_FinalReport.fld/image002.png">
+  <br><br><br><br>
+  <h1>Table of Contents</h1>
+  <p><a href="#_Toc467332967">Abstract</a></p>
+  <p><a href="#_Toc467332968">Project Statement</a></p>
+  <p><a href="#_Toc467332969">Components</a></p>
+  <p><a href="#_Toc467332970">Frontend</a></p>
+  <p><a href="#_Toc467332971">Middleware</a></p>
+  <p><a href="#_Toc467332972">Backend</a></p>
+  <p><a href="#_Toc467332973">Architecture</a></p>
+  <p><a href="#_Toc467332974">Usage Instructions</a></p>
+  <p><a href="#_Toc467332975">Conclusion</a></p>
+
+  <h1><a name="_Toc467332967"></a>Abstract</h1>
+  <p>Canada is a geographically vast and politically diverse nation, and as such it is often difficult to obtain a sense of the political alignments in this nation&rsquo;s various regions. For example, some regions may politically oppose the ruling party, and for a person living in one of these regions, it may be difficult to perceive how such an apparently unpopular party managed to be elected in the first place. Furthermore, given the relatively unbalanced representation of various electoral ridings, some regions may achieve more representation per citizen than other, more populous regions, further giving argument to the notion that an elected party seems to be only supported by a minority of people. When it comes time for an election again, candidates often travel to ridings they find important or tantamount to their victory, though this is sometimes difficult to judge from polls alone.</p>
+  <p>To help accommodate this problem, a heat-mapping web application that clearly indicates all political ridings across Canada as well as their present political affiliation has been developed. The goal of this system is to give individuals a sense of current political support for a given party. For undecided voters, this tool demonstrates general allegiance in their riding (or even region) and assist them in deciding based on their own views of how their riding is faring under the administration the current representing party. For candidates running for office either at a federal election or in a regional by-election, this system shows the political preferences of various ridings. The system employs the Google Maps API as well as data obtained via the Represent Civic Information API, hosted by Open North to create a politically coloured heat map of Canada, subdivided by ridings. When a riding is clicked, information about that riding, such as affiliation, member of parliament, and population as of the last census will be displayed in a popup message. This map retrieves data from an up-to-date online API. Every time there is a riding change as the result of a federal or by-election the data can be re-downloaded and the map will be refreshed. The implementation of this system has made the Canadian political environment easier for all individuals who make use of it.</p>
+  <h1><a name="_Toc467332968"></a>Project Statement</h1>
+  <p>This project is intended to deal with the confusion of viewing Canada&rsquo;s political landscape by taking up to date data and turning it into a graphical format that is easy to understand. Using a Node.js server, and Represent Civic Information API, the system gathers the electoral districts mappings across Canada as well as the representing party, and supplies them to an AngularJS web client in JSON format. Once the information is received, the client interprets the shape instructions and political party provided, and, using the Google Maps API, iteratively populates a map of Canada with coloured electoral districts, whose colour will be determined by the political party administering said district (See Figure 3, under <em>Usage Instructions</em>). After the render is complete, the map is shown to a user on an interactive single-page website (with URL <a href="http://localhost:3001)">http://localhost:3001)</a>, with a &ldquo;Refresh&rdquo; button visible below the map. The system will continuously maintain contact with the Node.js server, and when the refresh button is clicked, the previously retrieved information from the server is deleted, and a new set is downloaded, thus providing the most up-to-date map at the time of refreshing. For example, if a different political party wins in a by-election, and the refresh button is clicked, the colour of that riding will change to match the new party. Clicking on any riding will query the server with coordinates of the click spot, and, upon reply, will display a popup at the location of the click indicating the name of the riding, the representing party, the member of parliament and their e-mail address, a link to more information about the member of parliament, and the population of the riding as of the most recent census.</p>
+  <p>This application is a two-part self-contained application with a client and server configuration. The server, acts as a go-between for the client and API, as it accesses Open North&rsquo;s data on the client&rsquo;s behalf, and assembles the data in a desired format, before replying to the client&rsquo;s request with the data. All that is required is an internet connection so that the Node.js server can retrieve electoral data from Open North. After the first download, the electoral data is stored in cache, and the server is not accessed again until the refresh button is clicked, or an electoral district on the map is clicked. This not only makes subsequent accesses to the client faster in the future, but also, in the event of no internet connection, allows the application to show the user the last updated electoral map. If there is no connection, an error is displayed in the JavaScript console. In the potential circumstance where the cache is empty, and the server cannot be reached, the map will simply remain unpopulated, and&nbsp; error messages will be displayed in the JavaScript console.</p>
+  <h1><a name="_Toc467332969"></a>Components</h1>
+  <h2><a name="_Toc467332970"></a>Frontend</h2>
+  <ol>
+    <li>AngularJS Framework (v1.5.8)</li>
+    <li>ng-map plugin for AngularJS (v1.17.94)</li>
+    <li>Google Maps V3 API</li>
+    <li>HTML5 and CSS3</li>
+    <li>Twitter Bootstrap Frontend Framework (v3.3.7)</li>
+    <li>Python SimpleHTTPServer (v2.7.12)
+      <ol>
+        <li>NOTE: For easy deployment, Python is recommended, however, an HTTP server of any kind, such as Apache, can be substituted.</li>
+      </ol>
+    </li>
+    <li>EMCAScript5-compatible web browser (Google Chrome 54 was used during development)</li>
+  </ol>
+  <h2><a name="_Toc467332971"></a>Middleware</h2>
+  <ol>
+    <li>js (v6.3.1) and dependencies</li>
+    <li>js (v4.14.0) and dependencies</li>
+    <li>Represent Civic Data API Library for Node.js (v0.1.0) and dependencies</li>
+  </ol>
+  <h2><a name="_Toc467332972"></a>Backend</h2>
+  <ol>
+    <li>Open North&rsquo;s Represent Civic Data API</li>
+  </ol>
+  <h1><a name="_Toc467332973"></a>Architecture</h1>
+  <p>The system is set up in the form of a three-tiered architecture, with a client, middleware server, and API server. When the middleware and client servers are started, and the webpage of the client is loaded, the client checks for cached map data. If none is found, it issues a POST request to the middleware server, asking for the shapes and parties of all electoral ridings in Canada. The middleware server then queries the API server for a list of all federal electoral districts in Canada. This information is returned as a JSON array, which the server then iterates through, calling the API server with a request for shape information each of the 318 available districts (There are actually 338 districts, however the API appears to be missing 20). When the shape data for a district is returned, the middleware server then queries the API server for that district&rsquo;s party (which is in a separate location from the shape data). Once that data is retrieved, the shape data and party are amalgamated into a single JavaScript object, and pushed to an array. The server then repeats the process for the next district.</p>
+  <p>Once all the districts have been queried, and the data has all been pushed into the array, the middleware server replies to the client&rsquo;s POST request with the array. Upon receiving this reply, the client places the received data into a local scope object, and a copy is stored in the browser cache. Next, the client calls a function to draw the shapes on the map with this object as an argument. This method formats and passes the data into an object array connected to the Google Map on the HTML page, and uses an if/else block to determine the shape colour from the party. Once all the data has been passed into this object, the map draws the shapes and makes them visible to the user through the HTML page.</p>
+  <p>At the same time as this information downloading and processing is happening, the client asks for permission to use, and then discerns the client&rsquo;s location, placing a marker on the map at the deduced location.</p>
+  <p>After all this downloading is done the application is now ready for use. The user can navigate the map and view nearly every electoral district in Canada (20 of the 338 are missing from the API for unknown reasons). If a user wishes to know more about a district, they simply need to click on the district, and the client will send a new POST request to the middleware server, with the latitude and longitude of the click location in the body of the request, and open an information marker at the click location.</p>
+  <p>Upon receiving this request, the middleware server once again calls the Represent API with the coordinates it was provided, and retrieves the external identifier for the district that contains the coordinates (i.e., if the coordinates were located inside this shape, what riding would that be?) as well as its official name and stores them locally. Now in possession of this external identifier, the server will send a new request to the API, asking for the population of the district as of the last census. Once it has this data, it once again stores the values locally, and send a third and final request to the API asking for the political party, the name of the member of parliament, their e-mail address, and a URL to Parliament&rsquo;s official site for more information on the individual. Once it has this data, it checks the data to ensure that none of the values are undefined. If any are, the district is assumed to be vacant, an object is constructed containing the name and population of the district (which always exist), as well as fields for Party, MP, MP E-mail address, and Parliament URL which are all given values of either &ldquo;Vacant&rdquo; or &ldquo;N/A&rdquo;. If none of the values are undefined, an object is instead constructed containing all the fields above, but instead populated with the actual retrieved data:</p>
+  <p>replyPayload = {</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name: localData.name,</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mp: data.objects[0].name,</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; email: data.objects[0].email,</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; moreInfo: data.objects[0].url,</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; party: data.objects[0].party_name,</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; population: localPop</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; With this data populated, the middleware server sends it to the client as the reply to the client&rsquo;s original POST request. Upon receiving the reply, the client places the object in a local scope variable which, is utilized by the map as the body of the information marker.</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Due to the asynchronous nature of the request, the popup may appear on the map before the information has been retrieved, in which case, the popup will contain labels or the data, but no actual data (except for population, which is simply initialized to a default value of -1), however, once the data is retrieved, the popup will appear, showing all the information that the server has replied with (see Figure 1).</p>
+  <p>&nbsp;</p>
+  
+  <img src="SOFE%204790U_FinalReport.fld/image003.png"><br>
+  <img src="SOFE%204790U_FinalReport.fld/image004.png">
+  
+  <h1><a name="_Toc467332974"></a>Usage Instructions</h1>
+  <p>This project is a web application, and is therefore cross-platform and compatible with any operating system.</p>
+  <ol>
+    <li>If you have not already done so, please ensure you have Node.js and Python 2.7 installed:
+      <ol>
+        <li><a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></li>
+        <li><a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></li>
+      </ol>
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="2">
+    <li>Open a Terminal or Command Window in the Project Folder</li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="3">
+    <li>If you are running a Unix-Like Operating System (i.e., macOS, Linux, etc.) enter the following command, and then go to step 5:
+      <ol>
+        <li>./ElectionMap.sh</li>
+      </ol>
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="4">
+    <li>If you are running a non-Unix-like OS (such as Microsoft Windows) the servers will need to be started manually.
+      <ol>
+        <li>Open two terminal windows.</li>
+        <li>In the first, enter this command:
+          <ol>
+            <li>node RepresentServer\bin\www #Starts server on port 3000</li>
+          </ol>
+        </li>
+        <li>In the other, enter these two commands in the following order:
+          <ol>
+            <li>cd RepresentClient\app #Changes to client main directory</li>
+            <li>python -m SimpleHTTPServer 3001 #Load client on port 3001</li>
+          </ol>
+        </li>
+        <li>Launch the web browser of your choice, and navigate to <a href="http://localhost:3001">http://localhost:3001</a></li>
+      </ol>
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="5">
+    <li>The web application will begin loading, for more verbose information, open the developer tools console (in Google Chrome, you can hit F12 and select the "Console" tab). Please wait for the information to be downloaded from the remote server. The data totals approximately 7MB in size, however, it is retrieved iteratively, making the download process take up to 30 or 40 seconds. Once the data is downloaded, it will be printed to the developer console in JSON format, please allow another 10-20 seconds for the map to draw. During this time, the map will appear to be frozen. <strong>Once the map is populated, the application is ready to use, and the downloaded data is cached, making successive accesses to the site faster.</strong></li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="6">
+    <li>The map should be colour-coded by electoral district, with a marker on your machine's apparent location. The colour coding is as follows:</li>
+  </ol>
+<div class="container" style="padding-left: 80px">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th width="239">
+        <p><strong>Party</strong></p>
+      </th>
+      <th width="239">
+        <p>Colour</p>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td width="239">
+        <p><strong>Liberal</strong></p>
+      </td>
+      <td width="239">
+        <p>Red</p>
+      </td>
+    </tr>
+    <tr>
+      <td width="239">
+        <p><strong>Conservative</strong></p>
+      </td>
+      <td width="239">
+        <p>Blue</p>
+      </td>
+    </tr>
+    <tr>
+      <td width="239">
+        <p><strong>NDP</strong></p>
+      </td>
+      <td width="239">
+        <p>Orange</p>
+      </td>
+    </tr>
+    <tr>
+      <td width="239">
+        <p><strong>Bloc Quebecois</strong></p>
+      </td>
+      <td width="239">
+        <p>Cyan</p>
+      </td>
+    </tr>
+    <tr>
+      <td width="239">
+        <p><strong>Green Party</strong></p>
+      </td>
+      <td width="239">
+        <p>Green</p>
+      </td>
+    </tr>
+    <tr>
+      <td width="239">
+        <p><strong>Independent</strong></p>
+      </td>
+      <td width="239">
+        <p>Gray</p>
+      </td>
+    </tr>
+    <tr>
+      <td width="239">
+        <p><strong>Vacant/Other</strong></p>
+      </td>
+      <td width="239">
+        <p>Magenta</p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+  <ol start="7">
+    <li>To get more information on a district, click anywhere on it. A popup will appear at the click point. Allow 4-5 seconds for the data to download. Once downloaded, the popup will list the district name, its representing party, the member of parliament, the MP's e-mail address, a link to more information on the MP, and the population of the district as of the last census.</li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="8">
+    <li>To get new data, click the green refresh button under the map. This will clear the application's cache, and re-download the data from the API.</li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="9">
+    <li>When you are done with the application, it can be terminated by running the sh script (read disclaimer at the bottom of this section before doing so). If you are on Windows/Non-Unix-Like, simply type Ctrl+C (^C) into the two terminal windows created in step 4, this will manually terminate the node and python webservers.</li>
+  </ol>
+  <p style="color: red;">DISCLAIMER: Running EndProgram.sh will issue a general <strong>'killall'</strong> command to any processes with the name Python or Node. If you are running and important applications with either of these programs, it is strongly advised to manually terminate the heat map processes from your system monitor/task manager.</p>
+  <h1><a name="_Toc467332975"></a>Conclusion</h1>
+  <p>This heat mapping system will be able to represent Canada&rsquo;s political landscape in a way that is easy to perceive and understand, and hopefully provide voters and candidates alike with a solution that helps them decide on strategies and voting methods with every coming election in Canada for the foreseeable future. It is hoped that the benefits of such a system, as outlined in this report will be viewed as a beneficial and worthwhile tool for all who use it. Thank you for taking the time to read this report and try the Electoral Heat Mapping Application.</p>
+</div>
+
+<footer class="container-fluid text-center">
+  <p>
+    &copy; Dominick Mancini 2016<br>All Rights Reserved
+  </p>
+</footer>
+</body>
+</html>

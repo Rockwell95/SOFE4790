@@ -4,7 +4,6 @@ Final Project Instructions
 
 1. If you have not already done so, download the project to your local machine, and please ensure you have Node.js and Python 2.7 installed:
 
-    https://github.com/Rockwell95/SOFE4790/tree/master/Project
     https://nodejs.org/en/download/
     https://www.python.org/downloads/
     
@@ -28,7 +27,7 @@ Final Project Instructions
         
     d. Launch the web browser of your choice, and navigate to http://localhost:3001
 
-5. The web application will begin loading, for more verbose information, open the developer tools console (in Google Chrome, you can hit F12 and select the "Console" tab). Please wait for the information to be downloaded from the remote server. The data totals approximately 7MB in size, however, it is retrieved iteratively, making the download process take up to 30 or 40 seconds. Once the data is downloaded, it will be printed to the developer console in JSON format, please allow another 10-20 seconds for the map to draw. During this time, the map will be appear to be frozen.
+5. The web application will begin loading, for more verbose information, open the developer tools console (in Google Chrome, you can hit F12 and select the "Console" tab). Please wait for the information to be downloaded from the remote server. The data totals approximately 7MB in size, however, it is retrieved iteratively, making the download process take up to 30 or 40 seconds. Once the data is downloaded, it will be printed to the developer console in JSON format, please allow another 10-20 seconds for the map to draw. During this time, the map will appear to be frozen.
 
 Once the map is populated, the application is ready to use, and the downloaded data is cached, making successive accesses to the site faster.
 
