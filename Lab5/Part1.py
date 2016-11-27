@@ -10,6 +10,7 @@ locked = False
 pid = sys.argv[1]
 step_count = 0
 
+
 @Pyro4.expose
 class Server(object):
     def __init__(self):
