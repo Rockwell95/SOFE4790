@@ -62,10 +62,10 @@ def check_for_messages():
 
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
+    remote_name = str(sock.recvfrom(1024))
     ready = select.select([sock], [], [], 1)
     if ready[0]:
         message = sock.recv(10240)
-        remote_name = str(sock.recvfrom(1024))
         if isinstance(ast.literal_eval(message), dict):
             message_proper = ast.literal_eval(message)
             print("Process '" + remote_name + "' changing state to " + str(message_proper['state']))
